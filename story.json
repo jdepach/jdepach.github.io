@@ -1,0 +1,38 @@
+{
+  "title": "Le phare de la Pointe",
+  "start": "debut",
+  "nodes": {
+    "debut": {
+      "title": "Arrivée sur la falaise",
+      "text": "Le vent te pousse jusqu'au pied du phare. La porte est entrouverte, et une lumière tremble au sommet.\n\nDerrière toi, le sentier a déjà disparu dans la brume.",
+      "choices": [
+        { "label": "Entrer dans le phare", "to": "escalier" },
+        { "label": "Faire le tour par la falaise", "to": "falaise" }
+      ]
+    },
+    "escalier": {
+      "title": "L'escalier",
+      "text": "L'escalier en colimaçon compte plus de marches que le phare n'a de hauteur. Quelque part au-dessus, une voix fredonne.",
+      "choices": [
+        { "label": "Monter vers la voix", "to": "lanterne" },
+        { "label": "Redescendre", "to": "debut" }
+      ]
+    },
+    "falaise": {
+      "title": "Le bord de la falaise",
+      "text": "Sous le phare, une barque est amarrée à un anneau rouillé. Elle n'a pas de rames, mais elle a une voile blanche.",
+      "choices": [
+        { "label": "Monter dans la barque", "to": "fin-mer" },
+        { "label": "Retourner à l'entrée", "to": "debut" }
+      ]
+    },
+    "lanterne": {
+      "title": "La lanterne",
+      "text": "Une vieille gardienne t'attend près de la lampe. « Enfin, dit-elle. Je gardais ta place. »\n\nFin de l'histoire, pour cette fois."
+    },
+    "fin-mer": {
+      "title": "Le large",
+      "text": "La barque glisse sans bruit. Le phare rapetisse, puis s'éteint. Tu ne sauras jamais ce qu'il y avait tout en haut.\n\nFin de l'histoire, pour cette fois."
+    }
+  }
+}

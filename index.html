@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aventure</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;700&family=Literata:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Pour changer l'apparence, modifie uniquement ces variables */
+:root{--bg:#fbf6ea;--ink:#1d1520;--accent:#d3126b;--hi:#ffd400;
+--titre:"Barlow Semi Condensed","Arial Narrow",sans-serif;--texte:Literata,Georgia,serif}
+@media(prefers-color-scheme:dark){:root{--bg:#1d1520;--ink:#fbf6ea}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.1rem/1.75 var(--texte)}
+main{max-width:38rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+h1{font:700 clamp(2.2rem,8vw,3.6rem)/1 var(--titre);margin:0 0 .4rem}
+h2{font:500 1.5rem var(--titre);margin:2rem 0 1rem;padding-left:.7rem;border-left:.4rem solid var(--hi)}
+p{margin:0 0 1rem}
+.choix{display:grid;gap:.7rem;margin-top:2rem}
+button{font:500 1.1rem var(--titre);text-align:left;padding:.8rem 1rem;color:var(--ink);background:transparent;border:2px solid var(--accent);border-radius:.3rem;cursor:pointer}
+button:hover,button:focus-visible{background:var(--accent);color:#fff;outline:none}
+.fin{font-family:var(--titre);opacity:.7}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="titre"></h1>
+  <div id="scene"></div>
+</main>
+<script>
+let histoire;
+const scene = document.getElementById('scene');
+
+function afficher(id) {
+  const n = histoire.nodes[id] || histoire.nodes[histoire.start];
+  scene.replaceChildren();
+  const h = document.createElement('h2');
+  h.textContent = n.title || '';
+  scene.append(h);
+  (n.text || '').split(/\n\s*\n/).forEach(t => {
+    const p = document.createElement('p');
+    p.textContent = t;
+    scene.append(p);
+  });
+  const box = document.createElement('div');
+  box.className = 'choix';
+  const choix = n.choices && n.choices.length ? n.choices
+    : [{ label: 'Recommencer', to: histoire.start }];
+  choix.forEach(c => {
+    const b = document.createElement('button');
+    b.textContent = c.label;
+    b.onclick = () => { location.hash = c.to; };
+    box.append(b);
+  });
+  scene.append(box);
+  window.scrollTo(0, 0);
+}
+
+fetch('story.json')
+  .then(r => r.json())
+  .then(d => {
+    histoire = d;
+    document.title = d.title;
+    document.getElementById('titre').textContent = d.title;
+    window.addEventListener('hashchange', () => afficher(location.hash.slice(1)));
+    afficher(location.hash.slice(1));
+  })
+  .catch(() => { scene.textContent = "Impossible de charger l'histoire."; });
+</script>
+</body>
+</html>
